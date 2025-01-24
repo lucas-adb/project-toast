@@ -31,7 +31,7 @@ function ToastPlayground() {
 
       {
         isToastVisible && (
-          <Toast variant={variant} open={isToastVisible} handleClose={() => setIsToastVisible(false)}>{message}</Toast>
+          <Toast variant={variant} handleClose={() => setIsToastVisible(false)}>{message}</Toast>
         )
       }
 
