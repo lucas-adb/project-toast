@@ -9,13 +9,20 @@ import styles from './ToastPlayground.module.css';
 export const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
 
 function ToastPlayground() {
-  const {
-    handleCreateToast,
-    handleMessageChange,
-    handleVariantChange,
-    message,
-    variant,
-  } = React.useContext(ToastContext);
+  const { createToast } = React.useContext(ToastContext);
+
+  const [message, setMessage] = React.useState('');
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
+
+  const handleCreateToast = React.useCallback(
+    (event) => {
+      event.preventDefault();
+      createToast(message, variant);
+      setMessage('');
+      setVariant(variant);
+    },
+    [createToast, message, variant]
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -40,7 +47,7 @@ function ToastPlayground() {
               id="message"
               className={styles.messageInput}
               value={message}
-              onChange={handleMessageChange}
+              onChange={(e) => setMessage(e.target.value)}
             />
           </div>
         </div>
@@ -58,7 +65,7 @@ function ToastPlayground() {
                     type="radio"
                     name="variant"
                     value={option}
-                    onChange={() => handleVariantChange(option)}
+                    onChange={() => setVariant(option)}
                     checked={variant === option}
                   />
                   {option}
